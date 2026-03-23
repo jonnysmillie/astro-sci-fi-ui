@@ -1,0 +1,55 @@
+/* Sci-fi design tokens — override via [data-theme] on :root */
+
+:root {
+  color-scheme: dark;
+
+  --sf-color-primary: #22d3ee;
+  --sf-color-secondary: #d946ef;
+  --sf-bg-deep: #03060a;
+  --sf-bg-elevated: #0a1018;
+  --sf-bg-panel: color-mix(in oklab, var(--sf-bg-elevated) 88%, transparent);
+  --sf-bg-panel-solid: #0c141f;
+
+  --sf-glow-primary: color-mix(in oklab, var(--sf-color-primary) 55%, transparent);
+  --sf-glow-secondary: color-mix(in oklab, var(--sf-color-secondary) 45%, transparent);
+
+  --sf-border-subtle: color-mix(in oklab, var(--sf-color-primary) 22%, transparent);
+  --sf-border-strong: color-mix(in oklab, var(--sf-color-primary) 55%, transparent);
+
+  --sf-text-primary: #e8f4ff;
+  --sf-text-muted: color-mix(in oklab, var(--sf-text-primary) 55%, transparent);
+  --sf-text-dim: color-mix(in oklab, var(--sf-text-primary) 35%, transparent);
+
+  --sf-corner-size: 14px;
+  --sf-frame-thickness: 1px;
+
+  --font-sf-display: "Orbitron", ui-sans-serif, system-ui, sans-serif;
+  --font-sf-mono: "Share Tech Mono", ui-monospace, monospace;
+
+  --sf-scanline-opacity: 0.06;
+  --sf-hud-grain-opacity: 0.035;
+}
+
+[data-theme="ember"] {
+  --sf-color-primary: #fb923c;
+  --sf-color-secondary: #f43f5e;
+  --sf-glow-primary: color-mix(in oklab, var(--sf-color-primary) 50%, transparent);
+  --sf-glow-secondary: color-mix(in oklab, var(--sf-color-secondary) 45%, transparent);
+}
+
+[data-theme="matrix"] {
+  --sf-color-primary: #4ade80;
+  --sf-color-secondary: #22c55e;
+  --sf-bg-deep: #020805;
+  --sf-bg-elevated: #07140c;
+  --sf-bg-panel: color-mix(in oklab, var(--sf-bg-elevated) 88%, transparent);
+  --sf-bg-panel-solid: #0a1a12;
+  --sf-text-primary: #dcfce7;
+}
+
+[data-theme="void"] {
+  --sf-color-primary: #a78bfa;
+  --sf-color-secondary: #38bdf8;
+  --sf-bg-deep: #05040a;
+  --sf-bg-elevated: #100b1a;
+}

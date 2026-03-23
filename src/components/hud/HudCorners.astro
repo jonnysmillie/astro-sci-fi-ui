@@ -1,0 +1,64 @@
+---
+interface Props {
+  variant?: "primary" | "secondary";
+  /** Inset from edges (Tailwind spacing scale or arbitrary) */
+  inset?: string;
+  /** Arm length of each bracket */
+  arm?: string;
+  fixed?: boolean;
+  glow?: boolean;
+  class?: string;
+}
+
+const {
+  variant = "primary",
+  inset = "1rem",
+  arm = "2rem",
+  fixed = false,
+  glow = true,
+  class: className,
+} = Astro.props;
+
+const color =
+  variant === "secondary"
+    ? "border-sf-secondary shadow-[0_0_14px_var(--sf-glow-secondary)]"
+    : "border-sf-primary shadow-[0_0_14px_var(--sf-glow-primary)]";
+
+const base = [
+  "pointer-events-none absolute",
+  glow ? color : variant === "secondary" ? "border-sf-secondary" : "border-sf-primary",
+  "border-solid",
+];
+---
+
+<div
+  class:list={[
+    "relative",
+    fixed ? "fixed" : "absolute",
+    "inset-0",
+    className,
+  ]}
+  style={{ padding: inset }}
+  aria-hidden="true"
+>
+  <div
+    class:list={[...base, "left-0 top-0 border-l-2 border-t-2"]}
+    style={{ width: arm, height: arm }}
+  >
+  </div>
+  <div
+    class:list={[...base, "right-0 top-0 border-r-2 border-t-2"]}
+    style={{ width: arm, height: arm }}
+  >
+  </div>
+  <div
+    class:list={[...base, "bottom-0 left-0 border-b-2 border-l-2"]}
+    style={{ width: arm, height: arm }}
+  >
+  </div>
+  <div
+    class:list={[...base, "bottom-0 right-0 border-b-2 border-r-2"]}
+    style={{ width: arm, height: arm }}
+  >
+  </div>
+</div>
