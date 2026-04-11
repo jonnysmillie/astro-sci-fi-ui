@@ -79,6 +79,11 @@
   color: var(--sf-color-primary);
 }
 
+/** Angled SVG chamfer scales with width — `cqi` inset (below) keys off this. */
+.sf-frame:not(.sf-frame--square) {
+  container-type: inline-size;
+}
+
 .sf-frame--secondary {
   color: var(--sf-color-secondary);
 }
@@ -158,6 +163,19 @@
   width: 100%;
 }
 
+/**
+ * Wrapper inside an **angled** `Frame` when children are square / full-bleed rectangles.
+ * Insets content so the SVG chamfer stroke is not covered by opaque inner boxes.
+ * Square frames: rem-only (no query container). Angled: `cqi` tracks frame width (~14% chamfer in viewBox).
+ */
+.sf-frame-content-inset {
+  padding: max(1.35rem, calc(var(--sf-corner-size) * 2.5 + 0.35rem));
+}
+
+.sf-frame:not(.sf-frame--square) .sf-frame-content-inset {
+  padding: clamp(1.35rem, 17cqi, 22rem);
+}
+
 .sf-scanlines {
   pointer-events: none;
   position: absolute;
@@ -187,6 +205,24 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@keyframes sf-intel-pulse {
+  0%,
+  100% {
+    opacity: 0.92;
+  }
+  50% {
+    opacity: 0.48;
+  }
+}
+
+.sf-intel-feed-pulse {
+  animation: sf-intel-pulse 2.1s ease-in-out infinite;
+}
+
+[data-sf-animations="off"] .sf-intel-feed-pulse {
+  animation: none !important;
 }
 
 .sf-radar__sweep {
@@ -226,6 +262,29 @@
   }
 }
 
+[data-sf-animations="off"] .sf-frame--animated .sf-frame__corners,
+[data-sf-animations="off"] .sf-frame--animated .sf-frame__edge,
+[data-sf-animations="off"] .sf-frame--animated .sf-frame__svg path,
+[data-sf-animations="off"] .sf-frame--square.sf-frame--animated::after,
+[data-sf-animations="off"] .sf-scanlines--animated::before,
+[data-sf-animations="off"] .sf-radar__sweep,
+[data-sf-animations="off"] .sf-hud-ticker__track,
+[data-sf-animations="off"] .sf-terminal-cursor::after {
+  animation: none !important;
+}
+
+[data-sf-animations="off"] .sf-frame--square.sf-frame--animated::after {
+  opacity: 0.25;
+}
+
+[data-sf-animations="off"] .sf-terminal-cursor::after {
+  opacity: 0.35;
+}
+
+[data-sf-animations="off"] .sf-btn--animated-border > span:first-child {
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sf-frame--animated .sf-frame__corners,
   .sf-frame--animated .sf-frame__edge,
@@ -253,5 +312,9 @@
   .sf-terminal-cursor::after {
     animation: none !important;
     opacity: 0.35;
+  }
+
+  .sf-intel-feed-pulse {
+    animation: none !important;
   }
 }

@@ -2,7 +2,7 @@
 interface Props {
   variant?: "primary" | "secondary" | "ghost";
   type?: "button" | "submit" | "reset";
-  /** Adds `data-sf-sound-hover` / `data-sf-sound-click` when true (requires `bindDelegatedSound` in a client script). */
+  /** Adds `data-sf-sound-hover` / `data-sf-sound-click` when true (requires `bindDelegatedSound` in layout boot). */
   sound?: boolean;
   animatedBorder?: boolean;
   id?: string;
@@ -12,7 +12,7 @@ interface Props {
 const {
   variant = "primary",
   type = "button",
-  sound = false,
+  sound = true,
   animatedBorder = false,
   id,
   class: className,

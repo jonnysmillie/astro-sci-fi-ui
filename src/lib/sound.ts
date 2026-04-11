@@ -1,6 +1,9 @@
 export type SoundUrls = {
   hover?: string;
   click?: string;
+  tick?: string;
+  confirm?: string;
+  alert?: string;
 };
 
 export type SoundConfig = {
@@ -19,6 +22,15 @@ let config: SoundConfig = { ...defaultConfig };
 
 let audioCtx: AudioContext | null = null;
 
+/** ms between delegated hover sounds to avoid grid spam */
+let lastHoverSoundAt = 0;
+const HOVER_THROTTLE_MS = 110;
+
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 function getCtx(): AudioContext | null {
   if (typeof window === "undefined") return null;
   if (!audioCtx) {
@@ -29,14 +41,14 @@ function getCtx(): AudioContext | null {
   return audioCtx;
 }
 
-function beep(freq: number, duration = 0.04): void {
+function beep(freq: number, duration = 0.04, type: OscillatorType = "sine", gainMul = 0.08): void {
   const ctx = getCtx();
   if (!ctx) return;
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
-  osc.type = "sine";
+  osc.type = type;
   osc.frequency.value = freq;
-  gain.gain.value = config.volume * 0.08;
+  gain.gain.value = config.volume * gainMul;
   osc.connect(gain);
   gain.connect(ctx.destination);
   osc.start();
@@ -67,6 +79,11 @@ export function getSoundConfig(): Readonly<SoundConfig> {
 
 export async function playHoverSound(): Promise<void> {
   if (!config.enabled) return;
+  if (prefersReducedMotion()) return;
+  const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+  if (now - lastHoverSoundAt < HOVER_THROTTLE_MS) return;
+  lastHoverSoundAt = now;
+
   if (config.urls.hover) {
     await playUrl(config.urls.hover);
     return;
@@ -83,6 +100,39 @@ export async function playClickSound(): Promise<void> {
   }
   void getCtx()?.resume();
   beep(440, 0.05);
+}
+
+export async function playTickSound(): Promise<void> {
+  if (!config.enabled) return;
+  if (prefersReducedMotion()) return;
+  if (config.urls.tick) {
+    await playUrl(config.urls.tick);
+    return;
+  }
+  void getCtx()?.resume();
+  beep(660, 0.022, "triangle", 0.05);
+}
+
+export async function playConfirmSound(): Promise<void> {
+  if (!config.enabled) return;
+  if (config.urls.confirm) {
+    await playUrl(config.urls.confirm);
+    return;
+  }
+  void getCtx()?.resume();
+  beep(523, 0.04, "sine", 0.09);
+  setTimeout(() => beep(784, 0.06, "sine", 0.07), 45);
+}
+
+export async function playAlertSound(): Promise<void> {
+  if (!config.enabled) return;
+  if (prefersReducedMotion()) return;
+  if (config.urls.alert) {
+    await playUrl(config.urls.alert);
+    return;
+  }
+  void getCtx()?.resume();
+  beep(220, 0.08, "square", 0.04);
 }
 
 /**

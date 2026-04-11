@@ -1,11 +1,12 @@
 ---
 import ScifiLayout from "../layouts/ScifiLayout.astro";
+import AppShell from "../components/shell/AppShell.astro";
+import AppNav from "../components/shell/AppNav.astro";
 import Panel from "../components/core/Panel.astro";
 import Text from "../components/core/Text.astro";
 import Button from "../components/core/Button.astro";
 import Frame from "../components/core/Frame.astro";
 import Glow from "../components/effects/Glow.astro";
-import Scanlines from "../components/effects/Scanlines.astro";
 import AnimatedBorder from "../components/effects/AnimatedBorder.jsx";
 import HudMount from "../components/hud/HudMount.astro";
 import HudCorners from "../components/hud/HudCorners.astro";
@@ -20,47 +21,119 @@ import TerminalLine from "../components/terminal/TerminalLine.astro";
 import TerminalPrompt from "../components/terminal/TerminalPrompt.astro";
 ---
 
-<ScifiLayout title="Sci‑Fi UI kit — demo">
-  <div
-    class="relative min-h-dvh overflow-hidden bg-[radial-gradient(ellipse_at_20%_0%,color-mix(in_oklab,var(--sf-color-primary)_16%,transparent)_0%,transparent_55%),radial-gradient(ellipse_at_80%_120%,color-mix(in_oklab,var(--sf-color-secondary)_14%,transparent)_0%,transparent_50%),var(--sf-bg-deep)]"
-  >
-    <div class="sf-hud-vignette pointer-events-none fixed inset-0 z-[25]" aria-hidden="true"></div>
-    <div class="sf-noise pointer-events-none fixed inset-0 z-[26] mix-blend-overlay" aria-hidden="true"></div>
-    <Scanlines fixed animated class="z-[30]" />
-
-    <div class="relative z-[35] mx-auto flex max-w-6xl flex-col gap-10 px-4 py-10 sm:px-8 sm:py-14">
-      <header class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div class="space-y-2">
-          <Text variant="label" class="text-sf-primary">Astro + Tailwind</Text>
-          <Text variant="heading" glow class="max-w-xl">
-            Composable sci‑fi interface primitives
-          </Text>
-          <p class="max-w-2xl text-sm leading-relaxed text-sf-muted">
-            Frames, panels, HUD overlays, and optional motion — static first, islands only when they earn
-            their bytes.
-          </p>
-        </div>
-        <div class="flex flex-wrap items-center gap-3">
-          <Text variant="label" class="w-full sm:w-auto">Theme</Text>
-          <div class="flex flex-wrap gap-2" id="sf-theme-switcher" role="group" aria-label="Color theme">
-            {
-              [
-                { id: "default", label: "Nebula" },
-                { id: "ember", label: "Ember" },
-                { id: "matrix", label: "Matrix" },
-                { id: "void", label: "Void" },
-              ].map((t) => (
-                <button
-                  type="button"
-                  class="rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-elevated)_90%,transparent)] px-3 py-1.5 text-[0.65rem] uppercase tracking-[0.18em] text-sf-muted transition hover:border-[var(--sf-border-strong)] hover:text-sf-text"
-                  data-theme-choice={t.id}
-                >
-                  {t.label}
-                </button>
-              ))
-            }
+<ScifiLayout title="Kit & settings — Sci‑Fi UI">
+  <AppShell>
+    <AppNav />
+    <header class="flex flex-col gap-8">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div class="space-y-2">
+            <Text variant="label" class="text-sf-primary">Astro + Tailwind</Text>
+            <Text variant="heading" glow class="max-w-xl">
+              Composable sci‑fi interface primitives
+            </Text>
+            <p class="max-w-2xl text-sm leading-relaxed text-sf-muted">
+              Frames, panels, HUD overlays, and optional motion — static first, islands only when they earn
+              their bytes. Open‑Meteo chart demos live on the <a
+                class="text-sf-primary underline decoration-[var(--sf-border-subtle)] underline-offset-2"
+                href="/dashboard">Dashboard</a
+              > route.
+            </p>
           </div>
         </div>
+
+        <Panel variant="secondary" glow class="max-w-3xl" id="sf-settings-root">
+          <Text variant="heading" as="h2" class="mb-4 !text-base sm:!text-lg">Global settings</Text>
+          <div class="grid gap-6 sm:grid-cols-2">
+            <div class="space-y-3">
+              <Text variant="label">Color theme</Text>
+              <div class="flex flex-wrap gap-2" id="sf-theme-switcher" role="group" aria-label="Color theme">
+                {
+                  [
+                    { id: "default", label: "Nebula" },
+                    { id: "ember", label: "Ember" },
+                    { id: "matrix", label: "Matrix" },
+                    { id: "void", label: "Void" },
+                  ].map((t) => (
+                    <button
+                      type="button"
+                      class="rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-elevated)_90%,transparent)] px-3 py-1.5 text-[0.65rem] uppercase tracking-[0.18em] text-sf-muted transition hover:border-[var(--sf-border-strong)] hover:text-sf-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--sf-color-primary)]"
+                      data-theme-choice={t.id}
+                      data-sf-sound-hover
+                      data-sf-sound-click
+                    >
+                      {t.label}
+                    </button>
+                  ))
+                }
+              </div>
+            </div>
+            <div class="space-y-4">
+              <Text variant="label">Audio</Text>
+              <label class="flex cursor-pointer items-center gap-2 text-xs uppercase tracking-[0.2em] text-sf-muted">
+                <input id="sf-settings-sound" type="checkbox" class="accent-[var(--sf-color-primary)]" />
+                Enable UI sounds
+              </label>
+              <div class="space-y-1">
+                <label for="sf-settings-volume" class="text-[0.65rem] uppercase tracking-[0.18em] text-sf-dim">
+                  Volume
+                </label>
+                <input
+                  id="sf-settings-volume"
+                  type="range"
+                  min="0"
+                  max="100"
+                  class="w-full accent-[var(--sf-color-primary)]"
+                />
+              </div>
+              <Button variant="ghost" type="button" id="sf-settings-test-sound" class="!text-[0.65rem]" sound={false}>
+                Test confirm tone
+              </Button>
+              <p class="text-[0.65rem] leading-relaxed text-sf-dim">
+                Browsers may require a tap or click before audio unlocks; use test tone after enabling.
+              </p>
+            </div>
+          </div>
+          <div class="mt-6 space-y-3 border-t border-[var(--sf-border-subtle)] pt-6">
+            <Text variant="label">Appearance</Text>
+            <div class="flex flex-wrap gap-2" role="group" aria-label="Display appearance">
+              {
+                [
+                  { id: "default", label: "Default" },
+                  { id: "high-contrast", label: "High contrast" },
+                  { id: "light", label: "Light" },
+                ].map((a) => (
+                  <button
+                    type="button"
+                    class="rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-elevated)_90%,transparent)] px-3 py-1.5 text-[0.65rem] uppercase tracking-[0.18em] text-sf-muted transition hover:border-[var(--sf-border-strong)] hover:text-sf-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--sf-color-primary)]"
+                    data-appearance-choice={a.id}
+                    data-sf-sound-hover
+                    data-sf-sound-click
+                  >
+                    {a.label}
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+          <div class="mt-6 grid gap-4 border-t border-[var(--sf-border-subtle)] pt-6 sm:grid-cols-2">
+            <label class="flex cursor-pointer items-center gap-2 text-xs text-sf-muted">
+              <input id="sf-settings-scanlines" type="checkbox" class="accent-[var(--sf-color-primary)]" />
+              Scanlines overlay
+            </label>
+            <label class="flex cursor-pointer items-center gap-2 text-xs text-sf-muted">
+              <input id="sf-settings-grain" type="checkbox" class="accent-[var(--sf-color-primary)]" />
+              HUD grain / noise
+            </label>
+            <label class="flex cursor-pointer items-center gap-2 text-xs text-sf-muted">
+              <input id="sf-settings-vignette" type="checkbox" class="accent-[var(--sf-color-primary)]" />
+              Vignette
+            </label>
+            <label class="flex cursor-pointer items-center gap-2 text-xs text-sf-muted">
+              <input id="sf-settings-animations" type="checkbox" class="accent-[var(--sf-color-primary)]" />
+              Interface motion
+            </label>
+          </div>
+        </Panel>
       </header>
 
       <section class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
@@ -87,10 +160,10 @@ import TerminalPrompt from "../components/terminal/TerminalPrompt.astro";
             <div class="flex flex-wrap gap-3">
               <Button variant="primary" animatedBorder>Initialize</Button>
               <Button variant="secondary">Override</Button>
-              <Button variant="ghost" sound>Sound UI</Button>
+              <Button variant="ghost" sound={false}>No sound</Button>
             </div>
             <Text variant="label" class="text-sf-dim">
-              Enable audio in the footer, then hover or click “Sound UI” for lightweight cues.
+              Buttons use audio cues by default; disable with <code class="text-sf-primary">sound=&#123;false&#125;</code>.
             </Text>
           </div>
         </Panel>
@@ -110,12 +183,14 @@ import TerminalPrompt from "../components/terminal/TerminalPrompt.astro";
           </Panel>
 
           <Frame variant="primary" glow class="block">
-            <div class="px-2 pb-2">
+            <div class="sf-frame-content-inset">
               <AnimatedBorder client:visible>
                 <div class="space-y-2 p-5">
                   <Text variant="label" class="text-sf-primary">React island</Text>
                   <Text variant="data" class="text-sf-muted">
-                    Framer Motion drives the border; the interior stays static HTML from Astro.
+                    Angled <code class="text-sf-primary">Frame</code> stays visible: wrap square islands with{" "}
+                    <code class="text-sf-primary">sf-frame-content-inset</code> so opaque children do not cover the chamfered SVG
+                    border. Framer Motion drives the conic border; the interior stays static HTML from Astro.
                   </Text>
                 </div>
               </AnimatedBorder>
@@ -267,7 +342,7 @@ import TerminalPrompt from "../components/terminal/TerminalPrompt.astro";
                 <TerminalPrompt cursor>astro telemetry push --live</TerminalPrompt>
               </TerminalLine>
               <TerminalLine variant="highlight">bundle graph optimized · 12 modules</TerminalLine>
-              <TerminalLine variant="dim">hint: enable sound cues in footer for UI feedback</TerminalLine>
+              <TerminalLine variant="dim">hint: charts + Open-Meteo live on /dashboard</TerminalLine>
               <TerminalLine variant="error">warn: solar flux minor — recalibrate in 240s</TerminalLine>
               <TerminalLine variant="output">ok.</TerminalLine>
             </Terminal>
@@ -281,20 +356,9 @@ import TerminalPrompt from "../components/terminal/TerminalPrompt.astro";
         <Text variant="label" class="text-sf-dim">
           Sci‑Fi UI · Astro-first · Tailwind tokens + optional islands
         </Text>
-        <div class="flex flex-wrap items-center gap-3">
-          <label class="flex cursor-pointer items-center gap-2 text-xs uppercase tracking-[0.2em] text-sf-muted">
-            <input id="sf-sound-toggle" type="checkbox" class="accent-[var(--sf-color-primary)]" />
-            Audio cues
-          </label>
-          <Button variant="ghost" type="button" id="sf-reduced-motion-hint" class="!cursor-default">
-            Respects reduced motion
-          </Button>
-        </div>
+        <Button variant="ghost" type="button" id="sf-reduced-motion-hint" class="!cursor-default" sound={false}>
+          Respects reduced motion
+        </Button>
       </footer>
-    </div>
-  </div>
-
-  <script>
-    import "../scripts/demo-hud";
-  </script>
+  </AppShell>
 </ScifiLayout>

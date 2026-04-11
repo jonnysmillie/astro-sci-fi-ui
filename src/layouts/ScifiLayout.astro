@@ -22,6 +22,37 @@ const { title = "Sci‑Fi UI — Astro kit" } = Astro.props;
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700&family=Share+Tech+Mono&display=swap"
       rel="stylesheet"
     />
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        try {
+          var raw = localStorage.getItem("sf:settings");
+          var s = raw ? JSON.parse(raw) : null;
+          if (!s) {
+            var leg = localStorage.getItem("sf-theme");
+            if (leg && leg !== "default") d.setAttribute("data-theme", leg);
+            d.removeAttribute("data-sf-appearance");
+            d.setAttribute("data-sf-scanlines", "on");
+            d.setAttribute("data-sf-grain", "on");
+            d.setAttribute("data-sf-vignette", "on");
+            d.setAttribute("data-sf-animations", "on");
+            return;
+          }
+          var th = s.theme || "default";
+          if (th !== "default") d.setAttribute("data-theme", th);
+          else d.removeAttribute("data-theme");
+          var ap = s.appearance || "default";
+          if (ap !== "default") d.setAttribute("data-sf-appearance", ap);
+          else d.removeAttribute("data-sf-appearance");
+          d.setAttribute("data-sf-scanlines", s.scanlines === false ? "off" : "on");
+          d.setAttribute("data-sf-grain", s.grain === false ? "off" : "on");
+          d.setAttribute("data-sf-vignette", s.vignette === false ? "off" : "on");
+          d.setAttribute("data-sf-animations", s.animations === false ? "off" : "on");
+        } catch (e) {
+          /* ignore */
+        }
+      })();
+    </script>
   </head>
   <body class="min-h-dvh bg-sf-bg font-sf-mono text-sf-text antialiased">
     <slot />
