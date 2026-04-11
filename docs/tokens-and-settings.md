@@ -6,7 +6,7 @@ Settings are stored as JSON under **`sf:settings`**. A legacy key `sf-theme` is 
 
 | Field | Type | Default | Effect |
 | ----- | ---- | ------- | ------ |
-| `theme` | `"default"` \| `"ember"` \| `"matrix"` \| `"void"` | `"default"` | Sets `data-theme` on `<html>` when not `default`. |
+| `theme` | `"default"` \| `"nebula"` \| `"ember"` \| `"matrix"` \| `"void"` | `"default"` | Sets `data-theme` on `<html>` when not `default`. |
 | `appearance` | `"default"` \| `"high-contrast"` \| `"light"` | `"default"` | Sets `data-sf-appearance` on `<html>` when not `default`. |
 | `soundEnabled` | boolean | `false` | Enables delegated UI sounds. |
 | `soundVolume` | number (0–1) | `0.25` | Web Audio gain for UI sounds. |
@@ -21,7 +21,7 @@ HTML attributes mirror persisted UI (also used by CSS):
 
 | Attribute | Values | Meaning |
 | --------- | ------ | ------- |
-| `data-theme` | `ember`, `matrix`, `void` | Accent theme (omitted when `default`). |
+| `data-theme` | `nebula`, `ember`, `matrix`, `void` | Accent theme (omitted when `default` = synthwave palette). |
 | `data-sf-appearance` | `high-contrast`, `light` | Shell appearance preset (omitted when `default`). |
 | `data-sf-scanlines` | `on` / `off` | Scanlines overlay. |
 | `data-sf-grain` | `on` / `off` | Film grain. |

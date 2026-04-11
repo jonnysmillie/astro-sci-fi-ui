@@ -9,9 +9,7 @@ interface Props {
 const { narrow = false } = Astro.props;
 ---
 
-<div
-  class="relative min-h-dvh overflow-hidden bg-[radial-gradient(ellipse_at_20%_0%,color-mix(in_oklab,var(--sf-color-primary)_16%,transparent)_0%,transparent_55%),radial-gradient(ellipse_at_80%_120%,color-mix(in_oklab,var(--sf-color-secondary)_14%,transparent)_0%,transparent_50%),var(--sf-bg-deep)]"
->
+<div class="sf-app-shell-bg relative min-h-dvh overflow-hidden">
   <div class="sf-hud-vignette pointer-events-none fixed inset-0 z-[25]" aria-hidden="true"></div>
   <div class="sf-noise pointer-events-none fixed inset-0 z-[26] mix-blend-overlay" aria-hidden="true"></div>
   <Scanlines fixed animated class="z-[30]" />

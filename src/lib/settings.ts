@@ -1,6 +1,6 @@
 import { configureSound, playConfirmSound } from "./sound";
 
-export type ThemeId = "default" | "ember" | "matrix" | "void";
+export type ThemeId = "default" | "nebula" | "ember" | "matrix" | "void";
 
 export type AppearanceId = "default" | "high-contrast" | "light";
 
@@ -33,7 +33,7 @@ export const defaultSettings: SfSettings = {
 export const SETTINGS_CHANGED = "sf-settings-changed";
 
 function parseTheme(v: string | undefined): ThemeId {
-  if (v === "ember" || v === "matrix" || v === "void" || v === "default") return v;
+  if (v === "nebula" || v === "ember" || v === "matrix" || v === "void" || v === "default") return v;
   return "default";
 }
 

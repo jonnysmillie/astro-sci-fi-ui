@@ -31,6 +31,6 @@ flowchart LR
 | **Shell**    | `AppShell.astro` (background, boot script), `AppNav.astro` — shared page chrome. |
 | **Layout**   | `ScifiLayout.astro` — document shell, fonts, inline settings bootstrap (FOUC avoidance). |
 | **Lib**      | `src/lib/settings.ts`, `sound.ts`, `animation.ts`, `map-cities.ts` — settings, audio, and shared map/weather city presets. |
-| **Demo pages** | `src/pages/index.astro` (settings + kit), `dashboard.astro` (charts), `map.astro`, `intel.astro` — showroom wiring; safe to replace in forks. |
+| **Demo pages** | `index.astro` (landing), `kit.astro` (component showcase), `settings.astro` (shell prefs), `dashboard.astro`, `map.astro`, `intel.astro` — showroom wiring; safe to replace in forks. |
 
 Heavy client features (uPlot, MapLibre, TensorFlow.js) are isolated to specific routes or components and can be disabled with `PUBLIC_*` env flags — see the [README](../README.md) and [`.env.example`](../.env.example).

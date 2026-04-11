@@ -1,6 +1,6 @@
 # Sci‑Fi UI (Astro)
 
-Astro-first sci‑fi UI: frames, panels, HUD pieces, terminal, radar, Tailwind v4 tokens, and optional React islands (charts, map, motion) where they help.
+**Sci‑Fi UI** is an **Astro-first** interface kit for cockpit-style layouts: composable **frames and panels**, **HUD** primitives (corners, reticle, status bars, tickers), a **terminal** stack, and a passive **radar** — all biased toward **static HTML and CSS**, with **Tailwind v4** and shared **design tokens** (themes, glow, scanlines, optional sound). A thin **shell** (`AppShell`, `AppNav`) ties pages together with vignette, grain, and global **settings** persisted in the browser. **React** shows up only where it pays off: **charts** (uPlot), a **MapLibre** tactical map, **Framer Motion** for a few borders, and an optional **TensorFlow.js** panel on the intel route — each gated by env flags so you can ship a lighter fork without ripping out the whole demo.
 
 **License:** [MIT](LICENSE) · **Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md) · **Changelog:** [CHANGELOG.md](CHANGELOG.md)
 
@@ -23,7 +23,9 @@ Astro 6, Tailwind v4 (`@tailwindcss/vite`), React where needed (uPlot, MapLibre,
 
 | Path | What it is |
 |------|------------|
-| `/` | Showcase + global settings (theme, overlays, sound) |
+| `/` | Landing page |
+| `/kit` | Component showcase (panels, HUD, radar, terminal) |
+| `/settings` | Global shell preferences (theme, overlays, motion, sound) |
 | `/dashboard` | uPlot charts + Open-Meteo sample |
 | `/map` | MapLibre tactical map (env can disable) |
 | `/intel` | YouTube embed + optional local COCO-SSD (env can disable ML block) |
@@ -54,7 +56,7 @@ import Panel from "../components/core/Panel.astro";
 
 **Sound:** wired from [`boot.ts`](src/scripts/boot.ts) via `AppShell`. Use `data-sf-sound-hover` / `data-sf-sound-click`, or `sound` on [`Button.astro`](src/components/core/Button.astro). Settings live under `sf:settings` in `localStorage` — see [`src/lib/settings.ts`](src/lib/settings.ts).
 
-**Themes:** `data-theme` on `<html>` — `ember`, `matrix`, `void` ([`tokens.css`](src/styles/tokens.css)). **Appearance:** `data-sf-appearance` — `high-contrast`, `light`.
+**Themes:** Default (no attribute) is **synthwave** cyan / magenta on violet-black. Optional `data-theme`: `nebula` (older cyan/violet look), `ember`, `matrix`, `void` — see [`tokens.css`](src/styles/tokens.css). **Appearance:** `data-sf-appearance` — `high-contrast`, `light`.
 
 **Map tiles:** demo uses public raster endpoints; ship your own tiles or a paid plan and follow each provider’s terms (e.g. [OSM tile policy](https://operations.osmfoundation.org/policies/tiles/)).
 

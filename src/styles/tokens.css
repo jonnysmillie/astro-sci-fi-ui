@@ -3,22 +3,31 @@
 :root {
   color-scheme: dark;
 
-  --sf-color-primary: #22d3ee;
-  --sf-color-secondary: #d946ef;
-  --sf-bg-deep: #03060a;
-  --sf-bg-elevated: #0a1018;
+  /* Default: synthwave / Astro hero — electric cyan + hot magenta on violet-black */
+  --sf-color-primary: #00e5ff;
+  --sf-color-secondary: #e916b8;
+  --sf-bg-deep: #0c0618;
+  --sf-bg-elevated: #120c22;
   --sf-bg-panel: color-mix(in oklab, var(--sf-bg-elevated) 88%, transparent);
-  --sf-bg-panel-solid: #0c141f;
+  --sf-bg-panel-solid: #161026;
 
-  --sf-glow-primary: color-mix(in oklab, var(--sf-color-primary) 55%, transparent);
-  --sf-glow-secondary: color-mix(in oklab, var(--sf-color-secondary) 45%, transparent);
+  --sf-glow-primary: color-mix(in oklab, var(--sf-color-primary) 52%, transparent);
+  --sf-glow-secondary: color-mix(in oklab, var(--sf-color-secondary) 48%, transparent);
 
-  --sf-border-subtle: color-mix(in oklab, var(--sf-color-primary) 22%, transparent);
-  --sf-border-strong: color-mix(in oklab, var(--sf-color-primary) 55%, transparent);
+  --sf-border-subtle: color-mix(in oklab, var(--sf-color-primary) 24%, transparent);
+  --sf-border-strong: color-mix(in oklab, var(--sf-color-primary) 58%, transparent);
 
-  --sf-text-primary: #e8f4ff;
-  --sf-text-muted: color-mix(in oklab, var(--sf-text-primary) 55%, transparent);
-  --sf-text-dim: color-mix(in oklab, var(--sf-text-primary) 35%, transparent);
+  --sf-text-primary: #f7f5ff;
+  --sf-text-muted: color-mix(in oklab, var(--sf-text-primary) 54%, transparent);
+  --sf-text-dim: color-mix(in oklab, var(--sf-text-primary) 34%, transparent);
+
+  /* Diagonal pink → cyan wash behind radial glows (see .sf-app-shell-bg) */
+  --sf-shell-overlay: linear-gradient(
+    118deg,
+    color-mix(in oklab, var(--sf-color-secondary) 24%, transparent) 0%,
+    transparent 36%,
+    color-mix(in oklab, var(--sf-color-primary) 20%, transparent) 100%
+  );
 
   --sf-corner-size: 14px;
   --sf-frame-thickness: 1px;
@@ -28,6 +37,29 @@
 
   --sf-scanline-opacity: 0.06;
   --sf-hud-grain-opacity: 0.035;
+}
+
+/* Previous default: cooler cyan / violet-magenta on near-black */
+[data-theme="nebula"] {
+  --sf-color-primary: #22d3ee;
+  --sf-color-secondary: #d946ef;
+  --sf-bg-deep: #03060a;
+  --sf-bg-elevated: #0a1018;
+  --sf-bg-panel: color-mix(in oklab, var(--sf-bg-elevated) 88%, transparent);
+  --sf-bg-panel-solid: #0c141f;
+  --sf-glow-primary: color-mix(in oklab, var(--sf-color-primary) 55%, transparent);
+  --sf-glow-secondary: color-mix(in oklab, var(--sf-color-secondary) 45%, transparent);
+  --sf-border-subtle: color-mix(in oklab, var(--sf-color-primary) 22%, transparent);
+  --sf-border-strong: color-mix(in oklab, var(--sf-color-primary) 55%, transparent);
+  --sf-text-primary: #e8f4ff;
+  --sf-text-muted: color-mix(in oklab, var(--sf-text-primary) 55%, transparent);
+  --sf-text-dim: color-mix(in oklab, var(--sf-text-primary) 35%, transparent);
+  --sf-shell-overlay: linear-gradient(
+    125deg,
+    color-mix(in oklab, var(--sf-color-secondary) 12%, transparent) 0%,
+    transparent 48%,
+    color-mix(in oklab, var(--sf-color-primary) 10%, transparent) 100%
+  );
 }
 
 [data-theme="ember"] {

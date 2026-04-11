@@ -4,361 +4,107 @@ import AppShell from "../components/shell/AppShell.astro";
 import AppNav from "../components/shell/AppNav.astro";
 import Panel from "../components/core/Panel.astro";
 import Text from "../components/core/Text.astro";
-import Button from "../components/core/Button.astro";
-import Frame from "../components/core/Frame.astro";
-import Glow from "../components/effects/Glow.astro";
-import AnimatedBorder from "../components/effects/AnimatedBorder.jsx";
-import HudMount from "../components/hud/HudMount.astro";
-import HudCorners from "../components/hud/HudCorners.astro";
-import HudReticle from "../components/hud/HudReticle.astro";
-import HudBar from "../components/hud/HudBar.astro";
-import HudTicker from "../components/hud/HudTicker.astro";
-import HudReadout from "../components/hud/HudReadout.astro";
-import HudFrame from "../components/hud/HudFrame.astro";
-import Radar from "../components/radar/Radar.astro";
-import Terminal from "../components/terminal/Terminal.astro";
-import TerminalLine from "../components/terminal/TerminalLine.astro";
-import TerminalPrompt from "../components/terminal/TerminalPrompt.astro";
+
+const ctaPrimary =
+  "inline-flex min-h-10 items-center justify-center gap-2 rounded-sm border border-[var(--sf-border-strong)] bg-[color-mix(in_oklab,var(--sf-color-primary)_18%,var(--sf-bg-elevated))] px-5 py-2 font-sf-mono text-xs uppercase tracking-[0.2em] text-sf-text shadow-[0_0_0_1px_color-mix(in_oklab,var(--sf-color-primary)_25%,transparent),0_0_24px_var(--sf-glow-primary)] transition hover:shadow-[0_0_0_1px_var(--sf-color-primary),0_0_36px_var(--sf-glow-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sf-primary active:scale-[0.98]";
+const ctaSecondary =
+  "inline-flex min-h-10 items-center justify-center gap-2 rounded-sm border border-[color-mix(in_oklab,var(--sf-color-secondary)_45%,transparent)] bg-[color-mix(in_oklab,var(--sf-color-secondary)_14%,var(--sf-bg-elevated))] px-5 py-2 font-sf-mono text-xs uppercase tracking-[0.2em] text-sf-text shadow-[0_0_20px_var(--sf-glow-secondary)] transition hover:shadow-[0_0_32px_var(--sf-glow-secondary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sf-primary active:scale-[0.98]";
+const ctaGhost =
+  "inline-flex min-h-10 items-center justify-center gap-2 rounded-sm border border-[var(--sf-border-subtle)] bg-transparent px-5 py-2 font-sf-mono text-xs uppercase tracking-[0.2em] text-sf-muted transition hover:border-[var(--sf-border-strong)] hover:text-sf-text hover:shadow-[0_0_18px_var(--sf-glow-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sf-primary active:scale-[0.98]";
 ---
 
-<ScifiLayout title="Kit & settings — Sci‑Fi UI">
+<ScifiLayout title="Sci‑Fi UI — Astro cockpit kit">
   <AppShell>
     <AppNav />
-    <header class="flex flex-col gap-8">
-        <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div class="space-y-2">
-            <Text variant="label" class="text-sf-primary">Astro + Tailwind</Text>
-            <Text variant="heading" glow class="max-w-xl">
-              Composable sci‑fi interface primitives
-            </Text>
-            <p class="max-w-2xl text-sm leading-relaxed text-sf-muted">
-              Frames, panels, HUD overlays, and optional motion — static first, islands only when they earn
-              their bytes. Open‑Meteo chart demos live on the <a
-                class="text-sf-primary underline decoration-[var(--sf-border-subtle)] underline-offset-2"
-                href="/dashboard">Dashboard</a
-              > route.
-            </p>
-          </div>
-        </div>
-
-        <Panel variant="secondary" glow class="max-w-3xl" id="sf-settings-root">
-          <Text variant="heading" as="h2" class="mb-4 !text-base sm:!text-lg">Global settings</Text>
-          <div class="grid gap-6 sm:grid-cols-2">
-            <div class="space-y-3">
-              <Text variant="label">Color theme</Text>
-              <div class="flex flex-wrap gap-2" id="sf-theme-switcher" role="group" aria-label="Color theme">
-                {
-                  [
-                    { id: "default", label: "Nebula" },
-                    { id: "ember", label: "Ember" },
-                    { id: "matrix", label: "Matrix" },
-                    { id: "void", label: "Void" },
-                  ].map((t) => (
-                    <button
-                      type="button"
-                      class="rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-elevated)_90%,transparent)] px-3 py-1.5 text-[0.65rem] uppercase tracking-[0.18em] text-sf-muted transition hover:border-[var(--sf-border-strong)] hover:text-sf-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--sf-color-primary)]"
-                      data-theme-choice={t.id}
-                      data-sf-sound-hover
-                      data-sf-sound-click
-                    >
-                      {t.label}
-                    </button>
-                  ))
-                }
-              </div>
-            </div>
-            <div class="space-y-4">
-              <Text variant="label">Audio</Text>
-              <label class="flex cursor-pointer items-center gap-2 text-xs uppercase tracking-[0.2em] text-sf-muted">
-                <input id="sf-settings-sound" type="checkbox" class="accent-[var(--sf-color-primary)]" />
-                Enable UI sounds
-              </label>
-              <div class="space-y-1">
-                <label for="sf-settings-volume" class="text-[0.65rem] uppercase tracking-[0.18em] text-sf-dim">
-                  Volume
-                </label>
-                <input
-                  id="sf-settings-volume"
-                  type="range"
-                  min="0"
-                  max="100"
-                  class="w-full accent-[var(--sf-color-primary)]"
-                />
-              </div>
-              <Button variant="ghost" type="button" id="sf-settings-test-sound" class="!text-[0.65rem]" sound={false}>
-                Test confirm tone
-              </Button>
-              <p class="text-[0.65rem] leading-relaxed text-sf-dim">
-                Browsers may require a tap or click before audio unlocks; use test tone after enabling.
-              </p>
-            </div>
-          </div>
-          <div class="mt-6 space-y-3 border-t border-[var(--sf-border-subtle)] pt-6">
-            <Text variant="label">Appearance</Text>
-            <div class="flex flex-wrap gap-2" role="group" aria-label="Display appearance">
-              {
-                [
-                  { id: "default", label: "Default" },
-                  { id: "high-contrast", label: "High contrast" },
-                  { id: "light", label: "Light" },
-                ].map((a) => (
-                  <button
-                    type="button"
-                    class="rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-elevated)_90%,transparent)] px-3 py-1.5 text-[0.65rem] uppercase tracking-[0.18em] text-sf-muted transition hover:border-[var(--sf-border-strong)] hover:text-sf-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--sf-color-primary)]"
-                    data-appearance-choice={a.id}
-                    data-sf-sound-hover
-                    data-sf-sound-click
-                  >
-                    {a.label}
-                  </button>
-                ))
-              }
-            </div>
-          </div>
-          <div class="mt-6 grid gap-4 border-t border-[var(--sf-border-subtle)] pt-6 sm:grid-cols-2">
-            <label class="flex cursor-pointer items-center gap-2 text-xs text-sf-muted">
-              <input id="sf-settings-scanlines" type="checkbox" class="accent-[var(--sf-color-primary)]" />
-              Scanlines overlay
-            </label>
-            <label class="flex cursor-pointer items-center gap-2 text-xs text-sf-muted">
-              <input id="sf-settings-grain" type="checkbox" class="accent-[var(--sf-color-primary)]" />
-              HUD grain / noise
-            </label>
-            <label class="flex cursor-pointer items-center gap-2 text-xs text-sf-muted">
-              <input id="sf-settings-vignette" type="checkbox" class="accent-[var(--sf-color-primary)]" />
-              Vignette
-            </label>
-            <label class="flex cursor-pointer items-center gap-2 text-xs text-sf-muted">
-              <input id="sf-settings-animations" type="checkbox" class="accent-[var(--sf-color-primary)]" />
-              Interface motion
-            </label>
-          </div>
-        </Panel>
-      </header>
-
-      <section class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <Panel variant="primary" glow animated layer="raised">
-          <div class="flex flex-col gap-6">
-            <div class="flex flex-wrap items-baseline justify-between gap-3">
-              <Text variant="heading" as="h2" class="!text-base sm:!text-lg">Command panel</Text>
-              <Text variant="label" class="text-sf-secondary">Live preview</Text>
-            </div>
-            <div class="grid gap-4 sm:grid-cols-3">
-              <div class="rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-deep)_70%,transparent)] p-3">
-                <Text variant="label">Signal</Text>
-                <p class="mt-2 font-sf-mono text-2xl tracking-wide text-sf-text">98.4<span class="text-sf-muted">%</span></p>
-              </div>
-              <div class="rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-deep)_70%,transparent)] p-3">
-                <Text variant="label">Latency</Text>
-                <p class="mt-2 font-sf-mono text-2xl tracking-wide text-sf-text">12<span class="text-base text-sf-muted">ms</span></p>
-              </div>
-              <div class="rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-deep)_70%,transparent)] p-3">
-                <Text variant="label">Nodes</Text>
-                <p class="mt-2 font-sf-mono text-2xl tracking-wide text-sf-text">06</p>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-3">
-              <Button variant="primary" animatedBorder>Initialize</Button>
-              <Button variant="secondary">Override</Button>
-              <Button variant="ghost" sound={false}>No sound</Button>
-            </div>
-            <Text variant="label" class="text-sf-dim">
-              Buttons use audio cues by default; disable with <code class="text-sf-primary">sound=&#123;false&#125;</code>.
-            </Text>
-          </div>
-        </Panel>
-
-        <div class="flex flex-col gap-6">
-          <Panel variant="secondary" glass glow>
-            <div class="space-y-4">
-              <Text variant="heading" as="h2" class="!text-base sm:!text-lg">Glass stack</Text>
-              <Text variant="data" class="text-sf-muted">
-                Layered depth with frost, inner highlight, and token-driven borders — no global state.
-              </Text>
-              <Glow mode="inner" class="rounded-sm p-4">
-                <Text variant="label">Inner glow wrapper</Text>
-                <p class="mt-2 text-sm text-sf-text">Compose <code class="text-sf-primary">Glow</code> around any slot content.</p>
-              </Glow>
-            </div>
-          </Panel>
-
-          <Frame variant="primary" glow class="block">
-            <div class="sf-frame-content-inset">
-              <AnimatedBorder client:visible>
-                <div class="space-y-2 p-5">
-                  <Text variant="label" class="text-sf-primary">React island</Text>
-                  <Text variant="data" class="text-sf-muted">
-                    Angled <code class="text-sf-primary">Frame</code> stays visible: wrap square islands with{" "}
-                    <code class="text-sf-primary">sf-frame-content-inset</code> so opaque children do not cover the chamfered SVG
-                    border. Framer Motion drives the conic border; the interior stays static HTML from Astro.
-                  </Text>
-                </div>
-              </AnimatedBorder>
-            </div>
-          </Frame>
-        </div>
-      </section>
-
-      <section class="grid gap-6 lg:grid-cols-2">
-        <Panel variant="secondary" animated>
-          <Text variant="heading" as="h2" class="mb-4 !text-base">Typography</Text>
-          <div class="space-y-4">
-            <div>
-              <Text variant="label">Heading</Text>
-              <Text variant="heading" as="h3" class="mt-1 !normal-case !tracking-normal !text-sf-text">
-                Orbitron display
-              </Text>
-            </div>
-            <div>
-              <Text variant="label">Label</Text>
-              <Text variant="label" class="mt-1 !text-sf-text">Uppercase microcopy</Text>
-            </div>
-            <div>
-              <Text variant="label">Data</Text>
-              <Text variant="data" class="mt-1 text-sf-primary">00:14:22:09</Text>
-            </div>
-          </div>
-        </Panel>
-
-        <Panel variant="primary">
-          <Text variant="heading" as="h2" class="mb-4 !text-base">Frames only</Text>
-          <div class="grid gap-4 sm:grid-cols-2">
-            <Frame variant="primary" glow>
-              <div class="p-4 text-sm text-sf-muted">Primary frame + glow</div>
-            </Frame>
-            <Frame variant="secondary" animated>
-              <div class="p-4 text-sm text-sf-muted">Secondary frame + shimmer</div>
-            </Frame>
-          </div>
-        </Panel>
-      </section>
-
-      <section class="space-y-4">
-        <Text variant="label" class="text-sf-secondary">Tactical kit</Text>
-        <Text variant="heading" as="h2" class="!text-lg sm:!text-xl">HUD · radar · terminals</Text>
-        <p class="max-w-3xl text-sm text-sf-muted">
-          Compose cockpit layers with <code class="text-sf-primary">HudMount</code>, bracket corners, reticle, and
-          status strips — then drop a passive <code class="text-sf-primary">Radar</code> or log output in a framed
-          <code class="text-sf-primary">Terminal</code>. All static except your existing islands.
+    <section class="flex flex-col gap-10 pb-4 pt-4 sm:gap-14 sm:pt-8 lg:flex-row lg:items-center lg:gap-16">
+      <div class="max-w-2xl flex-1 space-y-6">
+        <Text variant="label" class="text-sf-primary">Astro 6 · Tailwind v4</Text>
+        <h1 class="font-sf-display text-3xl font-semibold uppercase tracking-[0.12em] text-sf-text sm:text-4xl lg:text-5xl">
+          Cockpit interfaces for the web
+        </h1>
+        <p class="text-base leading-relaxed text-sf-muted sm:text-lg">
+          Static-first frames, HUD layers, terminals, and radar — with optional React only where charts, maps, or motion
+          earn the bundle. Tune the shell globally, then ship your own routes on top.
         </p>
-
-        <div class="mt-8 grid gap-6 lg:grid-cols-2">
-          <Panel variant="primary" glow layer="raised">
-            <Text variant="heading" as="h2" class="mb-4 !text-base">HUD compose</Text>
-            <div
-              class="relative grid min-h-[22rem] grid-rows-[auto_1fr_auto] overflow-hidden rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-deep)_82%,transparent)]"
-            >
-              <HudMount class="col-span-full row-start-1 row-end-4">
-                <HudCorners inset="0.85rem" arm="1.65rem" />
-                <HudReticle scale={0.72} />
-              </HudMount>
-
-              <HudBar mode="inline" position="top" variant="primary" class="relative z-20">
-                <span slot="left">SEC-07 · LKO</span>
-                <span slot="center">VISUAL</span>
-                <span slot="right">RNG 4.2</span>
-              </HudBar>
-
-              <div class="relative z-10 flex items-center justify-center px-4 py-6">
-                <Radar
-                  class="w-full max-w-[13rem]"
-                  blips={[
-                    { angleDeg: 18, distance: 0.55 },
-                    { angleDeg: 140, distance: 0.42 },
-                    { angleDeg: 260, distance: 0.7 },
-                  ]}
-                />
-              </div>
-
-              <div class="pointer-events-none absolute left-3 top-14 z-20 max-w-[40%]">
-                <HudReadout>
-                  <span slot="label">Pitch</span>
-                  +02.4°
-                </HudReadout>
-              </div>
-              <div class="pointer-events-none absolute right-3 top-14 z-20 max-w-[40%]">
-                <HudReadout align="right">
-                  <span slot="label">Yaw</span>
-                  184.0°
-                </HudReadout>
-              </div>
-
-              <HudTicker class="relative z-20" durationSec={24}>
-                <span>Telemetry nominal</span>
-                <span>·</span>
-                <span>IFF standby</span>
-                <span>·</span>
-                <span>Link encrypted</span>
-                <span>·</span>
-                <span>No fly-zone buffer 1200m</span>
-              </HudTicker>
-            </div>
-            <Text variant="label" class="mt-3 text-sf-dim">
-              Shortcut: <code class="text-sf-primary">HudFrame</code> bundles mount + corners + optional reticle for
-              full-screen overlays.
-            </Text>
-            <div class="mt-4 rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-deep)_75%,transparent)] p-3">
-              <Text variant="label" class="mb-2">HudFrame preview</Text>
-              <div class="relative h-40 overflow-hidden rounded-sm">
-                <HudFrame corners reticle reticleScale={0.55} variant="secondary" class="opacity-95" />
-                <div
-                  class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center text-center text-xs text-sf-muted"
-                >
-                  Empty slot — add alerts, maps, video…
-                </div>
-              </div>
-            </div>
-          </Panel>
-
-          <div class="flex flex-col gap-6">
-            <Panel variant="secondary" animated>
-              <Text variant="heading" as="h2" class="mb-4 !text-base">Secondary radar</Text>
-              <Radar
-                variant="secondary"
-                animated={true}
-                blips={[
-                  { angleDeg: 55, distance: 0.33 },
-                  { angleDeg: 190, distance: 0.61 },
-                  { angleDeg: 332, distance: 0.48 },
-                ]}
-              />
-              <Text variant="label" class="mt-3 text-sf-dim">
-                Pass the <code class="text-sf-secondary">blips</code> prop, or add children with{" "}
-                <code class="text-sf-secondary">slot=&quot;blips&quot;</code> for custom SVG markers.
-              </Text>
-            </Panel>
-          </div>
-
-          <div class="min-w-0 lg:col-span-2">
-            <Terminal
-              title=" uplink · channel 9 "
-              variant="primary"
-              class="w-full"
-              bodyClass="max-h-52 sm:max-h-60"
-            >
-              <TerminalLine variant="system">// session established · uplink secure</TerminalLine>
-              <TerminalLine variant="output">listening on 0.0.0.0:4409 …</TerminalLine>
-              <TerminalLine variant="command">
-                <TerminalPrompt cursor>astro telemetry push --live</TerminalPrompt>
-              </TerminalLine>
-              <TerminalLine variant="highlight">bundle graph optimized · 12 modules</TerminalLine>
-              <TerminalLine variant="dim">hint: charts + Open-Meteo live on /dashboard</TerminalLine>
-              <TerminalLine variant="error">warn: solar flux minor — recalibrate in 240s</TerminalLine>
-              <TerminalLine variant="output">ok.</TerminalLine>
-            </Terminal>
-          </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="/kit" class={ctaPrimary}>Explore kit</a>
+          <a href="/settings" class={ctaSecondary}>Settings</a>
+          <a href="/dashboard" class={ctaGhost}>Dashboard</a>
         </div>
-      </section>
+      </div>
+      <div class="grid flex-1 gap-3 sm:grid-cols-2 lg:max-w-md">
+        <Panel variant="primary" glow class="sm:col-span-2">
+          <Text variant="label" class="text-sf-secondary">Why Astro</Text>
+          <p class="mt-2 text-sm leading-relaxed text-sf-muted">
+            Prerender by default, islands when you opt in — same tokens and shell across every page.
+          </p>
+        </Panel>
+        <Panel variant="secondary" class="border border-[var(--sf-border-subtle)]">
+          <Text variant="label">HUD + radar</Text>
+          <p class="mt-2 text-xs text-sf-dim">Composable overlays, no global state machine.</p>
+        </Panel>
+        <Panel variant="secondary" class="border border-[var(--sf-border-subtle)]">
+          <Text variant="label">Live demos</Text>
+          <p class="mt-2 text-xs text-sf-dim">Map, intel, charts — env flags trim weight.</p>
+        </Panel>
+      </div>
+    </section>
 
-      <footer
-        class="flex flex-col gap-4 border-t border-[var(--sf-border-subtle)] pt-8 sm:flex-row sm:items-center sm:justify-between"
-      >
-        <Text variant="label" class="text-sf-dim">
-          Sci‑Fi UI · Astro-first · Tailwind tokens + optional islands
-        </Text>
-        <Button variant="ghost" type="button" id="sf-reduced-motion-hint" class="!cursor-default" sound={false}>
-          Respects reduced motion
-        </Button>
-      </footer>
+    <section class="border-t border-[var(--sf-border-subtle)] py-12">
+      <Text variant="heading" as="h2" class="mb-2 !text-base sm:!text-lg">Where to next</Text>
+      <p class="mb-8 max-w-2xl text-sm text-sf-muted">
+        Everything here is MIT-licensed source you can lift into your own project. Docs describe tokens, props, and
+        third-party caveats.
+      </p>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <a
+          href="/kit"
+          class="group rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-elevated)_85%,transparent)] p-5 transition hover:border-[var(--sf-border-strong)] hover:shadow-[0_0_24px_var(--sf-glow-primary)]"
+        >
+          <Text variant="label" class="text-sf-primary">Kit</Text>
+          <p class="mt-2 font-sf-display text-sm uppercase tracking-[0.14em] text-sf-text">Components</p>
+          <p class="mt-2 text-xs text-sf-dim">Panels, frames, HUD, terminal, radar samples.</p>
+        </a>
+        <a
+          href="/settings"
+          class="group rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-elevated)_85%,transparent)] p-5 transition hover:border-[var(--sf-border-strong)] hover:shadow-[0_0_24px_var(--sf-glow-primary)]"
+        >
+          <Text variant="label" class="text-sf-primary">Shell</Text>
+          <p class="mt-2 font-sf-display text-sm uppercase tracking-[0.14em] text-sf-text">Settings</p>
+          <p class="mt-2 text-xs text-sf-dim">Theme, appearance, overlays, motion, UI sound.</p>
+        </a>
+        <a
+          href="/dashboard"
+          class="group rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-elevated)_85%,transparent)] p-5 transition hover:border-[var(--sf-border-strong)] hover:shadow-[0_0_24px_var(--sf-glow-primary)]"
+        >
+          <Text variant="label" class="text-sf-primary">Data</Text>
+          <p class="mt-2 font-sf-display text-sm uppercase tracking-[0.14em] text-sf-text">Dashboard</p>
+          <p class="mt-2 text-xs text-sf-dim">uPlot + Open-Meteo sample series.</p>
+        </a>
+        <a
+          href="/map"
+          class="group rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-elevated)_85%,transparent)] p-5 transition hover:border-[var(--sf-border-strong)] hover:shadow-[0_0_24px_var(--sf-glow-primary)]"
+        >
+          <Text variant="label" class="text-sf-primary">Field</Text>
+          <p class="mt-2 font-sf-display text-sm uppercase tracking-[0.14em] text-sf-text">Map</p>
+          <p class="mt-2 text-xs text-sf-dim">MapLibre tactical view (optional via env).</p>
+        </a>
+        <a
+          href="/intel"
+          class="group rounded-sm border border-[var(--sf-border-subtle)] bg-[color-mix(in_oklab,var(--sf-bg-elevated)_85%,transparent)] p-5 transition hover:border-[var(--sf-border-strong)] hover:shadow-[0_0_24px_var(--sf-glow-primary)] sm:col-span-2 lg:col-span-1"
+        >
+          <Text variant="label" class="text-sf-primary">Intel</Text>
+          <p class="mt-2 font-sf-display text-sm uppercase tracking-[0.14em] text-sf-text">Sensors</p>
+          <p class="mt-2 text-xs text-sf-dim">Embed + optional in-browser CV (env).</p>
+        </a>
+      </div>
+    </section>
+
+    <footer class="border-t border-[var(--sf-border-subtle)] pt-8">
+      <Text variant="label" class="text-sf-dim">
+        Markdown docs ship in <code class="text-sf-muted">docs/</code> (architecture, components, tokens, third-party) ·
+        MIT
+      </Text>
+    </footer>
   </AppShell>
 </ScifiLayout>
