@@ -3,9 +3,17 @@ import "../styles/global.css";
 
 interface Props {
   title?: string;
+  /** Short summary for `<meta name="description">` and social cards */
+  description?: string;
 }
 
-const { title = "Sci‑Fi UI — Astro kit" } = Astro.props;
+const {
+  title = "Sci‑Fi UI — Astro kit",
+  description = "Astro-first sci‑fi UI kit: frames, HUD, terminal, radar, Tailwind v4, optional React for charts, maps, and motion.",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.url.origin);
+const ogImage = new URL("/og-image.png", Astro.url.origin);
 ---
 
 <!doctype html>
@@ -16,6 +24,20 @@ const { title = "Sci‑Fi UI — Astro kit" } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={ogImage.href} />
+    <meta property="og:image:alt" content="Astro Scifi-UI — gradient title card" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage.href} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
