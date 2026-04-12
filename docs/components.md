@@ -1,5 +1,7 @@
 # Component props (kit)
 
+**Interactive catalog:** minimal live previews and copy-ready snippets live at **`/components`** in the app (data: `src/data/component-docs.ts`). This file keeps the detailed **props** tables.
+
 Astro components live under `src/components/`. Below are the main **props** (TypeScript interfaces) adopters care about.
 
 ## Core

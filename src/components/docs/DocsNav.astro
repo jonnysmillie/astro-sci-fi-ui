@@ -1,0 +1,42 @@
+---
+import { componentDocGroups } from "../../data/component-docs";
+
+const path = Astro.url.pathname;
+const base = "/components";
+
+function linkHref(slug: string): string {
+  return `${base}/${slug}`;
+}
+
+function isActive(slug: string): boolean {
+  return path === linkHref(slug) || path === `${linkHref(slug)}/`;
+}
+---
+
+<nav class="space-y-6" aria-label="Component documentation">
+  {
+    componentDocGroups.map((group) => (
+      <div>
+        <p class="mb-2 font-sf-mono text-[0.6rem] uppercase tracking-[0.22em] text-sf-dim">{group.label}</p>
+        <ul class="space-y-0.5 border-l border-[var(--sf-border-subtle)] pl-3">
+          {group.items.map((item) => (
+            <li>
+              <a
+                href={linkHref(item.slug)}
+                class:list={[
+                  "block rounded-sm py-1 pl-2 text-sm transition",
+                  isActive(item.slug)
+                    ? "border-l-2 border-sf-primary bg-[color-mix(in_oklab,var(--sf-color-primary)_10%,transparent)] text-sf-text -ml-px pl-[calc(0.5rem-2px)]"
+                    : "text-sf-muted hover:text-sf-text",
+                ]}
+                aria-current={isActive(item.slug) ? "page" : undefined}
+              >
+                {item.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
+</nav>

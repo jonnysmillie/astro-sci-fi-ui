@@ -24,6 +24,7 @@ Astro 6, Tailwind v4 (`@tailwindcss/vite`), React where needed (uPlot, MapLibre,
 | Path | What it is |
 |------|------------|
 | `/` | Landing page |
+| `/components` | Component documentation (nav + preview + snippets per primitive) |
 | `/kit` | Component showcase (panels, HUD, radar, terminal) |
 | `/settings` | Global shell preferences (theme, overlays, motion, sound) |
 | `/dashboard` | uPlot charts + Open-Meteo sample |
