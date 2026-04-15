@@ -20,6 +20,10 @@
 @import "./utilities.css";
 
 @layer base {
+  html {
+    scrollbar-gutter: stable;
+  }
+
   :where(a, button, input:not([type="hidden"]), textarea, select):focus-visible {
     outline: 2px solid var(--sf-color-primary);
     outline-offset: 2px;

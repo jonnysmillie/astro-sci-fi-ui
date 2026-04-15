@@ -75,7 +75,9 @@ const { slug } = Astro.props;
 {
   slug === "glow" && (
     <Glow mode="outer">
-      <span class="rounded-sm border border-[var(--sf-border-subtle)] px-3 py-2 text-sm text-sf-text">Highlighted block</span>
+      <span class="inline-flex items-center rounded-sm bg-[color-mix(in_oklab,var(--sf-bg-elevated)_92%,transparent)] px-3 py-2 text-sm text-sf-text [text-shadow:0_0_8px_var(--sf-glow-primary)]">
+        Highlighted block
+      </span>
     </Glow>
   )
 }

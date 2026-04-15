@@ -74,7 +74,9 @@ import Button from "../components/core/Button.astro";
 import Glow from "../components/effects/Glow.astro";
 ---
 <Glow mode="outer">
-  <span>Highlighted block</span>
+  <span class="rounded-sm bg-[color-mix(in_oklab,var(--sf-bg-elevated)_92%,transparent)] px-3 py-2 [text-shadow:0_0_8px_var(--sf-glow-primary)]">
+    Highlighted block
+  </span>
 </Glow>`,
       },
       {

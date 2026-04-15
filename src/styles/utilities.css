@@ -216,6 +216,20 @@
   animation: sf-scan-drift 6s linear infinite;
 }
 
+.sf-scanlines--animated {
+  background-size: 100% 6px;
+  animation: sf-scanline-scroll 1.8s linear infinite;
+}
+
+@keyframes sf-scanline-scroll {
+  from {
+    background-position-y: 0;
+  }
+  to {
+    background-position-y: 6px;
+  }
+}
+
 @keyframes sf-radar-sweep {
   from {
     transform: rotate(0deg);
@@ -251,7 +265,7 @@
 .sf-hud-ticker__track {
   display: flex;
   width: max-content;
-  animation: sf-hud-marquee var(--sf-ticker-duration, 22s) linear infinite;
+  animation: sf-hud-marquee calc(var(--sf-ticker-duration, 22s) * 2) linear infinite;
 }
 
 @keyframes sf-hud-marquee {
@@ -284,6 +298,7 @@
 [data-sf-animations="off"] .sf-frame--animated .sf-frame__edge,
 [data-sf-animations="off"] .sf-frame--animated .sf-frame__svg path,
 [data-sf-animations="off"] .sf-frame--square.sf-frame--animated::after,
+[data-sf-animations="off"] .sf-scanlines--animated,
 [data-sf-animations="off"] .sf-scanlines--animated::before,
 [data-sf-animations="off"] .sf-radar__sweep,
 [data-sf-animations="off"] .sf-hud-ticker__track,
@@ -316,6 +331,9 @@
   }
 
   .sf-scanlines--animated::before {
+    animation: none !important;
+  }
+  .sf-scanlines--animated {
     animation: none !important;
   }
 
