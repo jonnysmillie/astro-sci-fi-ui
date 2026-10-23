@@ -72,4 +72,4 @@ import Panel from "../components/core/Panel.astro";
 | `npm run build` | Production build |
 | `npm run preview` | Preview build |
 
-**Node ≥ 22.12** (Astro 6).
+**Node ≥ 22.23.4** (Astro 6, and the October 21, 2026 Node.js security releases).

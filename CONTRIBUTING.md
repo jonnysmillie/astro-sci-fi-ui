@@ -4,7 +4,7 @@ Thanks for helping improve this Astro sci-fi UI template.
 
 ## Prerequisites
 
-- **Node.js** ≥ 22.12 (see `package.json` `engines` and [Astro 6 requirements](https://docs.astro.build/)).
+- **Node.js** ≥ 22.23.4 (see `package.json` `engines`, [Astro 6 requirements](https://docs.astro.build/), and the [October 21, 2026 Node.js security releases](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases)).
 - npm (or another client compatible with `package-lock.json` if present).
 
 ## Local workflow
