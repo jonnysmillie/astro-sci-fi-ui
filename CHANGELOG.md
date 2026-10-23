@@ -18,4 +18,5 @@ when version tags are published.
 
 ### Changed
 
+- Require Node.js ≥ 22.23.4 so installs pick up the October 21, 2026 security releases (including CVE-2026-111497).
 - Removed unused default Astro stub layout in favor of `ScifiLayout.astro` only.
